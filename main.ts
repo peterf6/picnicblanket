@@ -1,13 +1,34 @@
+let list: number[] = []
+function checkGuess (text: string) {
+    match = 0
+    for (let guess = 0; guess <= list.length - 0; guess++) {
+        if (text == text_list[index]) {
+            info.changeScoreBy(1)
+            game.splash("Correct guess")
+            match += 1
+        }
+    }
+    if (match == 0) {
+        numberOfMisses += 1
+        info.changeScoreBy(0)
+        game.showLongText(numberOfMisses, DialogLayout.Top)
+        game.showLongText("wrong", DialogLayout.Bottom)
+        music.siren.play()
+    }
+}
 function changeSprite () {
     for (let value of food_picture) {
-        let food_name = 0
-        picnicFood.setImage(food_picture[food_name])
+        picnicFood.setImage(food_picture[index])
         pause(100)
     }
     picnicFood.destroy()
     guess = game.askForString("What was in Yogi's basket")
 }
 let guess = ""
+let numberOfMisses = 0
+let index = 0
+let match = 0
+let text_list: string[] = []
 let food_picture: Image[] = []
 let picnicFood: Sprite = null
 scene.setBackgroundImage(img`
@@ -308,11 +329,18 @@ img`
     . . . . . . . . . c c c c c . . 
     `
 ]
-let text_list = [
+text_list = [
 "ham",
 "chicken",
 "apple",
 "donut",
 "cherries"
 ]
-changeSprite()
+for (let index = 0; index <= 4; index++) {
+    picnicFood.setImage(food_picture[index])
+    pause(1000)
+}
+picnicFood.destroy()
+let whatFood = game.askForString("What was in Yogi's basket")
+info.setScore(0)
+checkGuess(whatFood)
